@@ -3,8 +3,8 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://avilagutier.github.io',
-  base: '/Avilagutier_Craft_-_Trail',
+  site: 'https://avilagutier-craft-trail.pages.dev',
+  base: '/',
   trailingSlash: 'ignore',
   integrations: [tailwind()],
 });

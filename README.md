@@ -2,7 +2,7 @@
 
 > Bitácora personal de senderismo alpino, viajes nórdicos y catas de cerveza artesana estilo Untappd.
 
-Sitio web estático de alto rendimiento creado con **Astro 5**, **Tailwind CSS**, **Content Collections** y **Leaflet.js + OpenStreetMap**.
+Sitio web estático de alto rendimiento creado con **Astro 5**, **Tailwind CSS**, **Content Collections** y **Leaflet.js + OpenStreetMap**. Desplegado en **Cloudflare Pages**.
 
 ---
 
@@ -16,6 +16,20 @@ Sitio web estático de alto rendimiento creado con **Astro 5**, **Tailwind CSS**
 | **Verde Lúpulo** | `#2D6A4F` | Trekking, senderos, botones principales |
 | **Pizarra Cumbre** | `#0F172A` | Fondos de alto contraste, tipografía principal |
 | **Espuma Hueso** | `#FAF8F5` | Fondo base cálido y limpio del sitio |
+
+---
+
+## ☁️ Despliegue en Cloudflare Pages
+
+1. En el panel de **Cloudflare**, entra a **Compute (Workers & Pages)** ➔ **Create application** ➔ pestaña **Pages** ➔ **Connect to Git**.
+2. Conecta el repositorio: `git@github.com:avilagutier/Avilagutier_Craft_-_Trail.git` (rama `main`).
+3. Ajustes de compilación:
+   * **Framework preset**: `Astro`
+   * **Build command**: `npm run build`
+   * **Build output directory**: `dist`
+   * **Environment Variables**:
+     * `NODE_VERSION`: `22`
+4. Pulsa **Save and Deploy**. Cada `git push` a `main` se compila y publica automáticamente en el CDN global de Cloudflare.
 
 ---
 
@@ -56,7 +70,7 @@ Sitio web estático de alto rendimiento creado con **Astro 5**, **Tailwind CSS**
 │   │   └── mapa.astro              # Mapa interactivo Leaflet.js + OpenStreetMap
 │   └── utils/
 │       └── url.ts                  # Helper base para rutas relativas
-├── astro.config.mjs                # Configuración site y base para GitHub Pages
+├── astro.config.mjs                # Configuración optimizada para Cloudflare Pages
 └── tailwind.config.mjs             # Configuración de tema y paleta personalizada
 ```
 
@@ -77,61 +91,3 @@ npm run build
 # Previsualizar el build de producción
 npm run preview
 ```
-
----
-
-## 📝 Cómo Añadir Nuevas Entradas
-
-Crea un nuevo archivo `.md` en la carpeta correspondiente:
-
-### Cervezas (`src/content/cervezas/mi-cerveza.md`)
-```markdown
----
-nombre: "Doble IPA Lupulada Salvaje"
-cerveceria: "Pub El Lúpulo Feroz"
-estilo: "Double Hazy IPA"
-graduacion: 8.2
-puntuacion: 4.5
-ciudad: "Madrid"
-fecha: 2026-10-14
-latitud: 40.4168
-longitud: -3.7038
-foto: "/images/cervezas/doble-ipa.svg"
-notas: "Explosión tropical en nariz..."
----
-Notas adicionales de la cata en formato Markdown...
-```
-
-### Viajes (`src/content/viajes/mi-viaje.md`)
-```markdown
----
-titulo: "Fiordos y Cerveza en Bergen"
-ciudad: "Bergen"
-pais: "Noruega"
-motivo: "placer" # o "trabajo"
-fecha: 2026-08-18
-latitud: 60.3913
-longitud: 5.3221
-foto: "/images/viajes/bergen-fiordos.svg"
-resumen: "4 días recorriendo los muelles..."
----
-Crónica completa del viaje...
-```
-
-### Trekking (`src/content/trekking/mi-ruta.md`)
-```markdown
----
-nombre: "Ascensión a Góriz"
-lugar: "Parque Nacional de Ordesa (Huesca)"
-distancia_km: 18.5
-desnivel: 1150
-fecha: 2026-09-08
-latitud: 42.6667
-longitud: 0.0500
-foto: "/images/trekking/ordesa-goriz.svg"
-notas: "Ruta exigente pero de belleza sobrecogedora..."
----
-Ficha técnica y descripción de la ruta...
-```
-
-Todas las nuevas entradas se incorporan automáticamente al **Mapa Global**, a los listados y a los filtros.
