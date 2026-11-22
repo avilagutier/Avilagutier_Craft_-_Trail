@@ -1,0 +1,87 @@
+---
+import Layout from '../layouts/Layout.astro';
+import TrekCard from '../components/TrekCard.astro';
+import { getCollection } from 'astro:content';
+import { baseUrl } from '../utils/url';
+
+const treks = (await getCollection('trekking')).sort(
+  (a, b) => b.data.fecha.getTime() - a.data.fecha.getTime()
+);
+
+const totalKm = treks.reduce((acc, t) => acc + t.data.distancia_km, 0);
+---
+
+<Layout 
+  title="Rutas & Trekking"
+  description="Cuaderno de montaña, senderismo alpino, ascensiones y grandes travesías."
+>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    
+    {/* Page Header */}
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 pb-6 border-b border-amber-900/10">
+      <div>
+        <div class="flex items-center gap-2 text-xs font-semibold text-verde-lupulo uppercase tracking-wider mb-2">
+          <span>🥾 Cuaderno de Montaña</span>
+          <span>•</span>
+          <span>Pirineos &amp; Picos de Europa</span>
+        </div>
+        <h1 class="font-display font-black text-3xl sm:text-4xl lg:text-5xl text-pizarra tracking-tight">
+          Rutas &amp; Trekking
+        </h1>
+        <p class="mt-2 text-base text-slate-600 max-w-xl">
+          Ascensiones a refugios de altura, desfiladeros kársticos y senderos salvajes. Fichas técnicas, desniveles acumulados y coordenadas GPS.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a
+          href={baseUrl('/mapa')}
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-verde-lupulo hover:bg-verde-bosque text-espuma font-bold text-sm shadow-sm transition-all hover:shadow"
+        >
+          <span>🗺️ Ver en el Mapa</span>
+        </a>
+      </div>
+    </div>
+
+    {/* Trek Stats Banner */}
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+      <div class="bg-white p-4 rounded-2xl border border-amber-900/10 shadow-sm flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-green-100 text-verde-lupulo flex items-center justify-center text-xl font-bold">
+          🥾
+        </div>
+        <div>
+          <span class="text-xs text-slate-400 font-medium block">Rutas registradas</span>
+          <span class="text-lg font-black text-pizarra">{treks.length} ascensiones</span>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl border border-amber-900/10 shadow-sm flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center text-xl font-bold">
+          📏
+        </div>
+        <div>
+          <span class="text-xs text-slate-400 font-medium block">Distancia total</span>
+          <span class="text-lg font-black text-pizarra">{totalKm.toFixed(1)} km</span>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl border border-amber-900/10 shadow-sm col-span-2 sm:col-span-1 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-900 flex items-center justify-center text-xl font-bold">
+          ⛰️
+        </div>
+        <div>
+          <span class="text-xs text-slate-400 font-medium block">Desnivel positivo</span>
+          <span class="text-lg font-black text-pizarra">+2,070 m</span>
+        </div>
+      </div>
+    </div>
+
+    {/* Treks Grid */}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {treks.map((trek) => (
+        <TrekCard trek={trek} />
+      ))}
+    </div>
+
+  </div>
+</Layout>

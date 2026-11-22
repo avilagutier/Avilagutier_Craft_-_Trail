@@ -1,0 +1,136 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import StarRating from '../../components/StarRating.astro';
+import { getCollection, render } from 'astro:content';
+import { baseUrl } from '../../utils/url';
+
+export async function getStaticPaths() {
+  const cervezas = await getCollection('cervezas');
+  return cervezas.map((beer) => ({
+    params: { slug: beer.id },
+    props: { beer },
+  }));
+}
+
+const { beer } = Astro.props;
+const { data } = beer;
+const { Content } = await render(beer);
+
+const formattedDate = new Intl.DateTimeFormat('es-ES', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+}).format(data.fecha);
+
+const abv = typeof data.graduacion === 'number' ? `${data.graduacion}%` : data.graduacion;
+---
+
+<Layout 
+  title={`${data.nombre} (${data.cerveceria})`}
+  description={data.notas || `Cata de ${data.nombre} en ${data.cerveceria}, ${data.ciudad}.`}
+  image={baseUrl(data.foto)}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    
+    {/* Navigation Breadcrumb */}
+    <nav class="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-6">
+      <a href={baseUrl('/')} class="hover:text-pizarra">Inicio</a>
+      <span>/</span>
+      <a href={baseUrl('/cervezas')} class="hover:text-pizarra">Cervezas</a>
+      <span>/</span>
+      <span class="text-pizarra truncate">{data.nombre}</span>
+    </nav>
+
+    {/* Header / Hero Banner */}
+    <article class="bg-white rounded-3xl border border-amber-900/10 shadow-lg overflow-hidden">
+      
+      {/* Photo Frame */}
+      <div class="w-full h-64 sm:h-80 bg-slate-900 relative overflow-hidden">
+        <img
+          src={baseUrl(data.foto)}
+          alt={data.nombre}
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-pizarra via-pizarra/30 to-transparent"></div>
+        
+        <div class="absolute bottom-6 left-6 right-6 text-espuma">
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-500 text-pizarra shadow">
+              {data.estilo}
+            </span>
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-white/20 backdrop-blur text-espuma">
+              {abv} ABV
+            </span>
+          </div>
+          <h1 class="font-display font-black text-2xl sm:text-4xl text-espuma leading-tight">
+            {data.nombre}
+          </h1>
+        </div>
+      </div>
+
+      {/* Untappd Quick Specs Bar */}
+      <div class="p-6 sm:p-8 bg-amber-50/40 border-b border-amber-900/10 grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Cervecería / Pub</span>
+          <span class="font-bold text-sm text-pizarra flex items-center gap-1.5">
+            <span>🍻</span> {data.cerveceria}
+          </span>
+        </div>
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Ciudad</span>
+          <span class="font-bold text-sm text-pizarra flex items-center gap-1.5">
+            <span>📍</span> {data.ciudad}
+          </span>
+        </div>
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Fecha de Cata</span>
+          <span class="font-bold text-sm text-pizarra flex items-center gap-1.5">
+            <span>📅</span> {formattedDate}
+          </span>
+        </div>
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Puntuación Untappd</span>
+          <StarRating rating={data.puntuacion} />
+        </div>
+      </div>
+
+      {/* Tasting Notes & Review Content */}
+      <div class="p-6 sm:p-10 space-y-6">
+        {data.notas && (
+          <div class="bg-amber-100/70 border-l-4 border-ambar-dorado p-4 rounded-r-xl text-slate-800 text-sm italic font-medium leading-relaxed">
+            «{data.notas}»
+          </div>
+        )}
+
+        <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-base space-y-4">
+          <Content />
+        </div>
+
+        {/* Map Location Link */}
+        <div class="mt-8 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="text-xs text-slate-500 font-mono">
+            Coordenadas GPS: {data.latitud.toFixed(4)}, {data.longitud.toFixed(4)}
+          </div>
+          <a
+            href={baseUrl('/mapa')}
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-verde-bosque hover:bg-verde-lupulo text-espuma text-xs font-bold transition-all shadow"
+          >
+            <span>🗺️ Localizar en el Mapa Global</span>
+          </a>
+        </div>
+      </div>
+
+    </article>
+
+    {/* Back link */}
+    <div class="mt-6 text-center">
+      <a
+        href={baseUrl('/cervezas')}
+        class="inline-flex items-center gap-2 text-sm font-bold text-verde-lupulo hover:text-verde-bosque transition-colors"
+      >
+        <span>← Volver a todas las cervezas</span>
+      </a>
+    </div>
+
+  </div>
+</Layout>

@@ -1,0 +1,86 @@
+---
+import { baseUrl } from '../utils/url';
+
+interface Props {
+  trip: {
+    id: string;
+    data: {
+      titulo: string;
+      ciudad: string;
+      pais: string;
+      motivo: string;
+      fecha: Date;
+      foto: string;
+      resumen: string;
+    };
+  };
+}
+
+const { trip } = Astro.props;
+const { data } = trip;
+
+const formattedDate = new Intl.DateTimeFormat('es-ES', {
+  month: 'long',
+  year: 'numeric',
+}).format(data.fecha);
+
+const isWork = data.motivo.toLowerCase() === 'trabajo';
+---
+
+<article class="bg-white rounded-2xl border border-amber-900/10 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group">
+  {/* Travel Image Cover */}
+  <div class="h-48 sm:h-52 w-full overflow-hidden bg-slate-100 relative">
+    <img
+      src={baseUrl(data.foto)}
+      alt={data.titulo}
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+      loading="lazy"
+    />
+    {/* Motivo Badge */}
+    <div class="absolute top-3 right-3">
+      <span class={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold tracking-wide shadow-md ${
+        isWork 
+          ? 'bg-amber-100 text-amber-900 border border-amber-300' 
+          : 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+      }`}>
+        <span>{isWork ? '💼' : '🏕️'}</span>
+        <span class="capitalize">{data.motivo}</span>
+      </span>
+    </div>
+
+    {/* Location Overlay pill */}
+    <div class="absolute bottom-3 left-3 bg-pizarra/85 backdrop-blur text-espuma px-2.5 py-1 rounded-lg text-xs font-medium flex items-center gap-1.5 shadow">
+      <span>📍</span>
+      <span>{data.ciudad}, {data.pais}</span>
+    </div>
+  </div>
+
+  <div class="p-6 flex-grow flex flex-col justify-between">
+    <div>
+      <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+        {formattedDate}
+      </span>
+      <h3 class="font-display font-extrabold text-xl text-pizarra group-hover:text-verde-bosque transition-colors leading-snug">
+        <a href={baseUrl(`/viajes/${trip.id}`)}>
+          {data.titulo}
+        </a>
+      </h3>
+      <p class="mt-3 text-sm text-slate-600 line-clamp-3 leading-relaxed">
+        {data.resumen}
+      </p>
+    </div>
+
+    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+      <span class="text-xs text-slate-400 font-mono">Destino nórdico/europeo</span>
+      <a
+        href={baseUrl(`/viajes/${trip.id}`)}
+        class="text-xs font-bold text-verde-bosque hover:text-verde-lupulo inline-flex items-center gap-1 group/btn"
+      >
+        <span>Leer crónica</span>
+        <svg class="w-4 h-4 transition-transform group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,114 @@
+---
+import { baseUrl } from '../utils/url';
+---
+
+<footer class="bg-pizarra text-espuma/80 mt-16 sm:mt-24 border-t-4 border-ambar-dorado">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
+      
+      {/* Brand & Seal Column */}
+      <div class="md:col-span-2 space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 relative flex-shrink-0 bg-espuma rounded-full p-1 border-2 border-ambar-dorado shadow">
+            <img 
+              src={baseUrl('/images/logos/Avilagutier_logo_C.svg')} 
+              alt="Sello Avilagutier" 
+              class="w-full h-full object-contain"
+              width="48"
+              height="48"
+            />
+          </div>
+          <div>
+            <h3 class="font-display font-black text-xl text-espuma tracking-wider">
+              AVILAGUTIER
+            </h3>
+            <p class="text-xs font-semibold text-ambar-dorado tracking-widest uppercase">
+              Craft &amp; Trail · Bitácora Personal
+            </p>
+          </div>
+        </div>
+        
+        <p class="text-sm text-espuma/70 max-w-sm leading-relaxed">
+          Un cuaderno de campo digital dedicado a la pasión por el senderismo de montaña, las travesías nórdicas y la búsqueda incansable de las mejores cervezas artesanales del mundo.
+        </p>
+
+        {/* Color Palette Pill preview */}
+        <div class="flex items-center gap-2 pt-2">
+          <span class="text-xs text-espuma/50 font-mono">Paleta:</span>
+          <span class="w-3.5 h-3.5 rounded-full bg-ambar-malta" title="Ámbar Malta (#D97796)"></span>
+          <span class="w-3.5 h-3.5 rounded-full bg-ambar-dorado" title="Ámbar Dorado (#F59E0B)"></span>
+          <span class="w-3.5 h-3.5 rounded-full bg-verde-bosque border border-white/20" title="Verde Bosque (#1B4332)"></span>
+          <span class="w-3.5 h-3.5 rounded-full bg-verde-lupulo" title="Verde Lúpulo (#2D6A4F)"></span>
+          <span class="w-3.5 h-3.5 rounded-full bg-pizarra border border-white/20" title="Pizarra Cumbre (#0F172A)"></span>
+          <span class="w-3.5 h-3.5 rounded-full bg-espuma" title="Espuma Hueso (#FAF8F5)"></span>
+        </div>
+      </div>
+
+      {/* Quick Links */}
+      <div>
+        <h4 class="font-display font-bold text-sm tracking-widest uppercase text-ambar-dorado mb-4">
+          Explora la Bitácora
+        </h4>
+        <ul class="space-y-2.5 text-sm">
+          <li>
+            <a href={baseUrl('/')} class="hover:text-amber-300 transition-colors flex items-center gap-2">
+              <span>🏠</span> Inicio
+            </a>
+          </li>
+          <li>
+            <a href={baseUrl('/cervezas')} class="hover:text-amber-300 transition-colors flex items-center gap-2">
+              <span>🍺</span> Cervezas &amp; Pubs
+            </a>
+          </li>
+          <li>
+            <a href={baseUrl('/viajes')} class="hover:text-amber-300 transition-colors flex items-center gap-2">
+              <span>✈️</span> Viajes &amp; Destinos
+            </a>
+          </li>
+          <li>
+            <a href={baseUrl('/trekking')} class="hover:text-amber-300 transition-colors flex items-center gap-2">
+              <span>🥾</span> Rutas &amp; Trekking
+            </a>
+          </li>
+          <li>
+            <a href={baseUrl('/mapa')} class="hover:text-amber-300 transition-colors flex items-center gap-2 font-bold text-espuma">
+              <span>🗺️</span> Mapa Global Interactivo
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      {/* Filosofía & Contacto */}
+      <div>
+        <h4 class="font-display font-bold text-sm tracking-widest uppercase text-ambar-dorado mb-4">
+          Cultura &amp; Rumbo
+        </h4>
+        <p class="text-xs text-espuma/70 leading-relaxed mb-3">
+          <em>«No hay cumbre que no merezca una buena pinta, ni pinta que no inspire una próxima cima.»</em>
+        </p>
+        <div class="pt-2">
+          <a
+            href={baseUrl('/mapa')}
+            class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-verde-bosque hover:bg-verde-lupulo text-espuma text-xs font-bold transition-all shadow-md"
+          >
+            <span>Ver mapa de coordenadas</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    {/* Bottom Bar */}
+    <div class="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-espuma/50 gap-4">
+      <p>&copy; {new Date().getFullYear()} Avilagutier Craft &amp; Trail. Desarrollado con Astro y Tailwind CSS.</p>
+      <p class="flex items-center gap-1.5">
+        <span>Hecho para explorar</span>
+        <span class="text-ambar-malta">♥</span>
+        <span>desde el móvil o la montaña</span>
+      </p>
+    </div>
+  </div>
+</footer>

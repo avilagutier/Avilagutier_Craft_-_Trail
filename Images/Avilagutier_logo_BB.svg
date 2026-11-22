@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%" role="img" aria-label="Logo Avilagutier - Monograma A-G y Lúpulo">
+  <!-- Contorno exterior estilo pin / tarro estilizado (Letra G) -->
+  <path d="M 164,74 A 62,62 0 1,0 176,132 L 136,132"
+        fill="none" stroke="#FAF8F5" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Asa minimalista del tarro integrada a la derecha de la G -->
+  <path d="M 176,94 L 191,94 C 197,94 201,98 201,104 L 201,122 C 201,128 197,132 191,132 L 176,132"
+        fill="none" stroke="#D97706" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Punta inferior que convierte el círculo de la G en marcador de mapa -->
+  <path d="M 104,168 L 120,188 L 136,168"
+        fill="none" stroke="#FAF8F5" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Letra 'A' interior en forma de pico de montaña -->
+  <!-- Relleno ámbar inferior dentro de la 'A' simulando cerveza -->
+  <polygon points="86,144 101,114 139,114 154,144" fill="#D97706" />
+  <!-- Espuma / nieve en el travesaño de la A -->
+  <path d="M 99,114 Q 110,108 120,114 Q 130,108 141,114 L 143,120 L 97,120 Z" fill="#FAF8F5" />
+
+  <!-- Trazos geométricos principales de la 'A' (Montaña) -->
+  <polyline points="82,146 120,72 158,146"
+            fill="none" stroke="#FAF8F5" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Travesaño de la A -->
+  <line x1="96" y1="120" x2="144" y2="120" stroke="#FAF8F5" stroke-width="5.5" stroke-linecap="round" />
+
+  <!-- Detalle de Flor de Lúpulo geométrica coronando la cumbre -->
+  <g transform="translate(120, 44)">
+    <path d="M 0,-14 C 6,-8 8,-2 0,6 C -8,-2 -6,-8 0,-14 Z" fill="#2D6A4F" />
+    <path d="M -8,-6 C -13,-1 -12,6 -3,9 C -2,3 -4,-2 -8,-6 Z" fill="#D97706" />
+    <path d="M 8,-6 C 13,-1 12,6 3,9 C 2,3 4,-2 8,-6 Z" fill="#D97706" />
+  </g>
+
+  <!-- Nombre de marca limpio en la base -->
+  <text x="120" y="214" text-anchor="middle" fill="#FAF8F5" font-family="'Montserrat', 'Inter', sans-serif" font-size="14" font-weight="800" letter-spacing="4.5">
+    AVILAGUTIER
+  </text>
+  <line x1="76" y1="223" x2="164" y2="223" stroke="#D97706" stroke-width="2" stroke-linecap="round" />
+</svg>

@@ -1,0 +1,352 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { baseUrl } from '../utils/url';
+
+// Fetch all entries from all 3 Content Collections
+const cervezas = await getCollection('cervezas');
+const viajes = await getCollection('viajes');
+const trekking = await getCollection('trekking');
+
+// Prepare unified map pins data
+const mapPoints = [
+  ...cervezas.map((c) => ({
+    id: `cerveza-${c.id}`,
+    category: 'cervezas',
+    categoryName: 'Cervezas & Pubs',
+    title: c.data.nombre,
+    subtitle: `${c.data.cerveceria} · ${c.data.estilo}`,
+    detail: `📍 ${c.data.ciudad} · Puntuación: ${c.data.puntuacion} / 5 ★`,
+    lat: c.data.latitud,
+    lng: c.data.longitud,
+    photo: baseUrl(c.data.foto),
+    url: baseUrl(`/cervezas/${c.id}`),
+    color: '#F59E0B', // Ámbar Dorado
+    icon: '🍺',
+  })),
+  ...viajes.map((v) => ({
+    id: `viaje-${v.id}`,
+    category: 'viajes',
+    categoryName: 'Viajes',
+    title: v.data.titulo,
+    subtitle: `${v.data.ciudad}, ${v.data.pais}`,
+    detail: `Motivo: ${v.data.motivo.toUpperCase()} · ${v.data.resumen.substring(0, 90)}...`,
+    lat: v.data.latitud,
+    lng: v.data.longitud,
+    photo: baseUrl(v.data.foto),
+    url: baseUrl(`/viajes/${v.id}`),
+    color: '#1B4332', // Verde Bosque
+    icon: '✈️',
+  })),
+  ...trekking.map((t) => ({
+    id: `trekking-${t.id}`,
+    category: 'trekking',
+    categoryName: 'Rutas & Trekking',
+    title: t.data.nombre,
+    subtitle: t.data.lugar,
+    detail: `Distancia: ${t.data.distancia_km} km · Desnivel: +${t.data.desnivel} m`,
+    lat: t.data.latitud,
+    lng: t.data.longitud,
+    photo: baseUrl(t.data.foto),
+    url: baseUrl(`/trekking/${t.id}`),
+    color: '#2D6A4F', // Verde Lúpulo
+    icon: '🥾',
+  })),
+];
+---
+
+<Layout 
+  title="Mapa Global de Aventuras"
+  description="Mapa interactivo con todas las catas de cerveza, destinos de viaje y rutas de trekking de Avilagutier."
+>
+  {/* Include Leaflet CSS */}
+  <link rel="stylesheet" href={baseUrl('/vendor/leaflet/leaflet.css')} slot="head" />
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    
+    {/* Page Title & Breadcrumbs */}
+    <div class="mb-6">
+      <div class="flex items-center gap-2 text-xs font-semibold text-verde-lupulo uppercase tracking-wider mb-2">
+        <span>🗺️ Exploración Cartográfica</span>
+        <span>•</span>
+        <span>OpenStreetMap + Leaflet.js</span>
+      </div>
+      <h1 class="font-display font-black text-3xl sm:text-4xl lg:text-5xl text-pizarra tracking-tight">
+        Mapa Global de Expediciones
+      </h1>
+      <p class="mt-2 text-base sm:text-lg text-slate-600 max-w-2xl">
+        Descubre de un vistazo geográfico cada pub visitado, cumbre alcanzada y rincón explorado. Toca cualquier marcador para ver fotos y la reseña completa.
+      </p>
+    </div>
+
+    {/* Filter Buttons Bar */}
+    <div class="bg-white p-3 sm:p-4 rounded-2xl border border-amber-900/10 shadow-sm mb-6 flex flex-wrap items-center justify-between gap-3">
+      
+      <div class="flex flex-wrap items-center gap-2" id="filter-buttons">
+        <button
+          type="button"
+          data-filter="all"
+          class="filter-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-sm flex items-center gap-1.5 bg-pizarra text-espuma border border-pizarra"
+        >
+          <span>🌐 Todas las huellas</span>
+          <span class="bg-white/20 text-espuma px-1.5 py-0.2 rounded-full text-[11px] font-mono">
+            {mapPoints.length}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          data-filter="cervezas"
+          class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-sm flex items-center gap-1.5 bg-slate-100 text-slate-700 hover:bg-amber-100 hover:text-amber-900 border border-slate-200"
+        >
+          <span>🍺 Cervezas &amp; Pubs</span>
+          <span class="bg-amber-200 text-amber-900 px-1.5 py-0.2 rounded-full text-[11px] font-mono">
+            {cervezas.length}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          data-filter="viajes"
+          class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-sm flex items-center gap-1.5 bg-slate-100 text-slate-700 hover:bg-emerald-100 hover:text-emerald-900 border border-slate-200"
+        >
+          <span>✈️ Viajes</span>
+          <span class="bg-emerald-200 text-emerald-900 px-1.5 py-0.2 rounded-full text-[11px] font-mono">
+            {viajes.length}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          data-filter="trekking"
+          class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-sm flex items-center gap-1.5 bg-slate-100 text-slate-700 hover:bg-green-100 hover:text-green-900 border border-slate-200"
+        >
+          <span>🥾 Trekking</span>
+          <span class="bg-green-200 text-green-900 px-1.5 py-0.2 rounded-full text-[11px] font-mono">
+            {trekking.length}
+          </span>
+        </button>
+      </div>
+
+      <div class="text-xs text-slate-500 hidden sm:flex items-center gap-1">
+        <span>📍 Pines coloreados por categoría</span>
+      </div>
+    </div>
+
+    {/* Map Container */}
+    <div class="relative bg-slate-100 rounded-3xl overflow-hidden border-2 border-amber-900/10 shadow-xl">
+      <div id="global-map" class="w-full h-[65vh] min-h-[500px] z-10"></div>
+      
+      {/* Mobile Map Legend Floating Card */}
+      <div class="absolute bottom-4 left-4 z-20 bg-white/95 backdrop-blur-md px-3.5 py-2.5 rounded-xl shadow-lg border border-slate-200 text-xs hidden sm:flex items-center gap-4">
+        <span class="flex items-center gap-1.5 font-medium text-slate-700">
+          <span class="w-3 h-3 rounded-full bg-ambar-dorado inline-block"></span> Cervezas
+        </span>
+        <span class="flex items-center gap-1.5 font-medium text-slate-700">
+          <span class="w-3 h-3 rounded-full bg-verde-bosque inline-block"></span> Viajes
+        </span>
+        <span class="flex items-center gap-1.5 font-medium text-slate-700">
+          <span class="w-3 h-3 rounded-full bg-verde-lupulo inline-block"></span> Trekking
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+  {/* Client Side Leaflet Script */}
+  <script src={baseUrl('/vendor/leaflet/leaflet.js')} is:inline></script>
+  
+  {/* Data Injection & Map Controller */}
+  <script is:inline define:vars={{ mapPoints }}>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof L === 'undefined') {
+        console.error('Leaflet no está cargado.');
+        return;
+      }
+
+      // Initialize Map centered in Europe
+      const map = L.map('global-map', {
+        center: [50.0, 5.0],
+        zoom: 4,
+        zoomControl: true,
+        scrollWheelZoom: true,
+      });
+
+      // Add OpenStreetMap Tile Layer
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      // Custom Pin Marker Factory
+      function createCustomIcon(point) {
+        let pinBg = point.color;
+        let iconEmoji = point.icon;
+
+        const html = `
+          <div class="custom-map-pin" style="
+            width: 38px;
+            height: 48px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 4px 6px rgba(15, 23, 42, 0.35));
+            cursor: pointer;
+            transition: transform 0.2s ease;
+          ">
+            <svg viewBox="0 0 38 48" width="38" height="48" style="position: absolute; top: 0; left: 0;">
+              <path d="M 19 0 C 8.5 0 0 8.5 0 19 C 0 30 19 48 19 48 C 19 48 38 30 38 19 C 38 8.5 29.5 0 19 0 Z" 
+                    fill="${pinBg}" stroke="#FAF8F5" stroke-width="2.5" />
+              <circle cx="19" cy="18" r="13" fill="#FAF8F5" />
+            </svg>
+            <span style="
+              position: relative; 
+              z-index: 2; 
+              font-size: 14px; 
+              margin-top: -12px;
+              line-height: 1;
+            ">${iconEmoji}</span>
+          </div>
+        `;
+
+        return L.divIcon({
+          html: html,
+          className: 'custom-leaflet-marker',
+          iconSize: [38, 48],
+          iconAnchor: [19, 48],
+          popupAnchor: [0, -48],
+        });
+      }
+
+      // Store markers by category
+      const markers = [];
+      const bounds = L.latLngBounds();
+
+      mapPoints.forEach((point) => {
+        const icon = createCustomIcon(point);
+        const marker = L.marker([point.lat, point.lng], { icon: icon });
+
+        // Popup HTML with image, title, category badge and button to full review
+        const popupContent = `
+          <div style="font-family: 'Inter', sans-serif; min-width: 240px; max-width: 290px; overflow: hidden; border-radius: 14px;">
+            <div style="position: relative; width: 100%; height: 120px; overflow: hidden; background: #0F172A; border-radius: 10px 10px 0 0;">
+              <img src="${point.photo}" alt="${point.title}" style="width: 100%; height: 100%; object-fit: cover;" />
+              <span style="position: absolute; top: 8px; left: 8px; background: rgba(15, 23, 42, 0.85); color: #FAF8F5; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 9999px;">
+                ${point.categoryName}
+              </span>
+            </div>
+            <div style="padding: 12px 10px 10px 10px;">
+              <h4 style="font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800; color: #0F172A; margin: 0 0 4px 0; line-height: 1.25;">
+                ${point.title}
+              </h4>
+              <p style="font-size: 12px; font-weight: 600; color: #2D6A4F; margin: 0 0 4px 0;">
+                ${point.subtitle}
+              </p>
+              <p style="font-size: 11px; color: #64748B; margin: 0 0 12px 0; line-height: 1.4;">
+                ${point.detail}
+              </p>
+              <a href="${point.url}" style="
+                display: block; 
+                width: 100%; 
+                text-align: center; 
+                padding: 8px 12px; 
+                background: #1B4332; 
+                color: #FAF8F5; 
+                font-size: 12px; 
+                font-weight: 700; 
+                text-decoration: none; 
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+              ">
+                Ver reseña completa →
+              </a>
+            </div>
+          </div>
+        `;
+
+        marker.bindPopup(popupContent, {
+          maxWidth: 320,
+          className: 'custom-popup-styled',
+        });
+
+        marker.addTo(map);
+        bounds.extend([point.lat, point.lng]);
+
+        markers.push({
+          marker: marker,
+          category: point.category,
+        });
+      });
+
+      // Fit map to markers
+      if (mapPoints.length > 0) {
+        map.fitBounds(bounds, { padding: [60, 60] });
+      }
+
+      // Filter Controller
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      filterButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const filter = btn.getAttribute('data-filter');
+
+          // Update active styles
+          filterButtons.forEach((b) => {
+            b.classList.remove('bg-pizarra', 'text-espuma', 'active');
+            b.classList.add('bg-slate-100', 'text-slate-700');
+          });
+          btn.classList.add('bg-pizarra', 'text-espuma', 'active');
+          btn.classList.remove('bg-slate-100', 'text-slate-700');
+
+          const filteredBounds = L.latLngBounds();
+          let count = 0;
+
+          // Toggle markers
+          markers.forEach(({ marker, category }) => {
+            if (filter === 'all' || category === filter) {
+              if (!map.hasLayer(marker)) {
+                map.addLayer(marker);
+              }
+              filteredBounds.extend(marker.getLatLng());
+              count++;
+            } else {
+              if (map.hasLayer(marker)) {
+                map.removeLayer(marker);
+              }
+            }
+          });
+
+          // Re-center map if there are visible markers
+          if (count > 0) {
+            map.fitBounds(filteredBounds, { padding: [60, 60] });
+          }
+        });
+      });
+    });
+  </script>
+
+  <style is:global>
+    .leaflet-popup-content-wrapper {
+      padding: 0 !important;
+      border-radius: 14px !important;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25) !important;
+    }
+    .leaflet-popup-content {
+      margin: 0 !important;
+      line-height: normal !important;
+    }
+    .leaflet-container a.leaflet-popup-close-button {
+      top: 6px !important;
+      right: 6px !important;
+      color: #FAF8F5 !important;
+      background: rgba(15, 23, 42, 0.6) !important;
+      width: 22px !important;
+      height: 22px !important;
+      border-radius: 9999px !important;
+      font-size: 14px !important;
+      line-height: 20px !important;
+      text-align: center !important;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+    }
+  </style>
+</Layout>

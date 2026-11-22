@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+import TravelCard from '../components/TravelCard.astro';
+import { getCollection } from 'astro:content';
+import { baseUrl } from '../utils/url';
+
+const trips = (await getCollection('viajes')).sort(
+  (a, b) => b.data.fecha.getTime() - a.data.fecha.getTime()
+);
+---
+
+<Layout 
+  title="Viajes & Expediciones"
+  description="Diario de viajes, escapadas nórdicas y conferencias internacionales por el mundo."
+>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    
+    {/* Page Header */}
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 pb-6 border-b border-amber-900/10">
+      <div>
+        <div class="flex items-center gap-2 text-xs font-semibold text-verde-bosque uppercase tracking-wider mb-2">
+          <span>✈️ Bitácora de Viajes</span>
+          <span>•</span>
+          <span>Placer &amp; Trabajo</span>
+        </div>
+        <h1 class="font-display font-black text-3xl sm:text-4xl lg:text-5xl text-pizarra tracking-tight">
+          Viajes &amp; Destinos
+        </h1>
+        <p class="mt-2 text-base text-slate-600 max-w-xl">
+          Crónicas de ciudades hanseáticas, fiordos escandinavos, cultura cervecera y encuentros profesionales por el mundo.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a
+          href={baseUrl('/mapa')}
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-verde-bosque hover:bg-verde-lupulo text-espuma font-bold text-sm shadow-sm transition-all hover:shadow"
+        >
+          <span>🗺️ Ver en el Mapa</span>
+        </a>
+      </div>
+    </div>
+
+    {/* Trips Grid */}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {trips.map((trip) => (
+        <TravelCard trip={trip} />
+      ))}
+    </div>
+
+  </div>
+</Layout>

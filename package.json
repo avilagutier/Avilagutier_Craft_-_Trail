@@ -1,0 +1,22 @@
+{
+  "name": "avilagutier-craft-and-trail",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "start": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "sync": "ASTRO_TELEMETRY_DISABLED=1 astro sync",
+    "astro": "ASTRO_TELEMETRY_DISABLED=1 astro"
+  },
+  "dependencies": {
+    "astro": "^5.1.0",
+    "@astrojs/tailwind": "^6.0.0",
+    "tailwindcss": "^3.4.17",
+    "leaflet": "^1.9.4"
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.9.14"
+  }
+}

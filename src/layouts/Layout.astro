@@ -1,0 +1,89 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { baseUrl } from '../utils/url';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title,
+  description = "Avilagutier Craft & Trail: Bitácora personal de senderismo, viajes nórdicos y cervezas artesanas.",
+  image = baseUrl('/images/logos/Avilagutier_logo_A.svg'),
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="icon" type="image/svg+xml" href={baseUrl('/images/logos/Avilagutier_logo_A.svg')} />
+    <meta name="generator" content={Astro.generator} />
+
+    {/* Primary Meta Tags */}
+    <title>{title} | Avilagutier Craft &amp; Trail</title>
+    <meta name="title" content={`${title} | Avilagutier Craft & Trail`} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    {/* Open Graph / Facebook / Instagram */}
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={`${title} | Avilagutier Craft & Trail`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+
+    {/* Twitter */}
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content={`${title} | Avilagutier Craft & Trail`} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.site)} />
+
+    {/* Google Fonts */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    {/* Custom Head Slot */}
+    <slot name="head" />
+
+    {/* Global Styles */}
+    <style is:global>
+      :root {
+        --color-malta: #D97796;
+        --color-dorado: #F59E0B;
+        --color-bosque: #1B4332;
+        --color-lupulo: #2D6A4F;
+        --color-pizarra: #0F172A;
+        --color-espuma: #FAF8F5;
+      }
+      body {
+        background-color: var(--color-espuma);
+        color: var(--color-pizarra);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+      }
+      h1, h2, h3, h4, .font-display {
+        font-family: 'Montserrat', 'Inter', sans-serif;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col bg-espuma text-pizarra antialiased selection:bg-ambar-dorado/30 selection:text-pizarra">
+    <Header />
+    <main class="flex-grow">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,50 @@
+---
+interface Props {
+  rating: number; // 1 to 5, can be decimal like 4.5
+  max?: number;
+  showNumber?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const { rating, max = 5, showNumber = true, size = 'md' } = Astro.props;
+
+const stars = Array.from({ length: max }, (_, i) => {
+  const fill = Math.max(0, Math.min(1, rating - i));
+  return { index: i, fill };
+});
+
+const sizeClasses = {
+  sm: 'w-3.5 h-3.5',
+  md: 'w-4.5 h-4.5 text-base',
+  lg: 'w-5 h-5 text-lg',
+}[size];
+---
+
+<div class="inline-flex items-center gap-1.5" title={`Puntuación: ${rating} de ${max}`}>
+  <div class="flex items-center text-ambar-dorado">
+    {stars.map((star) => (
+      <span class="relative inline-block leading-none">
+        {/* Empty star background */}
+        <svg class={`${sizeClasses} text-slate-300 fill-current`} viewBox="0 0 24 24">
+          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+        </svg>
+        {/* Filled star foreground clipped according to value */}
+        {star.fill > 0 && (
+          <span 
+            class="absolute top-0 left-0 overflow-hidden leading-none text-ambar-dorado"
+            style={`width: ${star.fill * 100}%`}
+          >
+            <svg class={`${sizeClasses} fill-current`} viewBox="0 0 24 24">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+            </svg>
+          </span>
+        )}
+      </span>
+    ))}
+  </div>
+  {showNumber && (
+    <span class="text-xs font-bold text-pizarra bg-amber-50 text-amber-900 border border-amber-200 px-1.5 py-0.5 rounded-md font-mono">
+      {rating.toFixed(1)}
+    </span>
+  )}
+</div>

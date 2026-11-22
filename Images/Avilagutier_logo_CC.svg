@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%" role="img" aria-label="Logo Avilagutier - Brújula Cervecera">
+  <defs>
+    <path id="topArc-3-slate-false" d="M 38,120 A 82,82 0 1,1 202,120" />
+    <path id="botArc-3-slate-false" d="M 44,132 A 78,78 0 0,0 196,132" />
+    <clipPath id="innerSeal-3-slate-false">
+      <circle cx="120" cy="120" r="62" />
+    </clipPath>
+  </defs>
+
+  <!-- Doble anillo exterior de sello de expedición -->
+  <circle cx="120" cy="120" r="106" fill="none" stroke="#FAF8F5" stroke-width="3" />
+  <circle cx="120" cy="120" r="99" fill="none" stroke="#FAF8F5" stroke-width="1" stroke-opacity="0.4" />
+  <circle cx="120" cy="120" r="66" fill="none" stroke="#FAF8F5" stroke-width="2" />
+
+  <!-- Marcas cardinales de brújula (N, S, E, O) -->
+  <polygon points="120,8 123,16 117,16" fill="#D97706" />
+  <line x1="120" y1="224" x2="120" y2="232" stroke="#FAF8F5" stroke-width="2.5" stroke-linecap="round" />
+  <line x1="8" y1="120" x2="16" y2="120" stroke="#FAF8F5" stroke-width="2.5" stroke-linecap="round" />
+  <line x1="224" y1="120" x2="232" y2="120" stroke="#FAF8F5" stroke-width="2.5" stroke-linecap="round" />
+
+  <!-- Texto superior e inferior del sello -->
+  <text fill="#FAF8F5" font-family="'Montserrat', 'Inter', sans-serif" font-size="12.5" font-weight="800" letter-spacing="3.8">
+    <textPath href="#topArc-3-slate-false" startOffset="50%" text-anchor="middle">AVILAGUTIER</textPath>
+  </text>
+  <text fill="#D97706" font-family="'Montserrat', 'Inter', sans-serif" font-size="8.5" font-weight="700" letter-spacing="3">
+    <textPath href="#botArc-3-slate-false" startOffset="50%" text-anchor="middle">TREK · CRAFT · ROUTE</textPath>
+  </text>
+
+  <!-- Conos de lúpulo minimalistas flanqueando el sello (Izquierda y Derecha) -->
+  <g transform="translate(36, 120) rotate(-15)">
+    <ellipse cx="0" cy="0" rx="5" ry="9" fill="#2D6A4F" />
+    <path d="M -4,-2 Q 0,3 4,-2" fill="none" stroke="#FAF8F5" stroke-width="1.2" />
+    <path d="M -3,3 Q 0,7 3,3" fill="none" stroke="#FAF8F5" stroke-width="1.2" />
+  </g>
+  <g transform="translate(204, 120) rotate(15)">
+    <ellipse cx="0" cy="0" rx="5" ry="9" fill="#2D6A4F" />
+    <path d="M -4,-2 Q 0,3 4,-2" fill="none" stroke="#FAF8F5" stroke-width="1.2" />
+    <path d="M -3,3 Q 0,7 3,3" fill="none" stroke="#FAF8F5" stroke-width="1.2" />
+  </g>
+
+  <!-- Escena central recortada dentro del círculo interior -->
+  <g clip-path="url(#innerSeal-3-slate-false)">
+    <!-- Sol / Brújula ámbar de fondo -->
+    <circle cx="120" cy="106" r="24" fill="#F59E0B" opacity="0.25" />
+
+    <!-- Montaña central geométrica -->
+    <polygon points="62,142 104,94 142,142" fill="#2D6A4F" />
+    <polygon points="94,142 134,88 178,142" fill="#FAF8F5" />
+    <!-- Arista iluminada -->
+    <polygon points="134,88 134,142 178,142" fill="#2D6A4F" opacity="0.65" />
+
+    <!-- Marcador Pin de ubicación coronando la cumbre principal -->
+    <g transform="translate(134, 73)">
+      <path d="M 0,-13 C -5.5,-13 -10,-8.5 -10,-3 C -10,4 0,13 0,13 C 0,13 10,4 10,-3 C 10,-8.5 5.5,-13 0,-13 Z" fill="#D97706" />
+      <circle cx="0" cy="-3.5" r="3.2" fill="#FAF8F5" />
+    </g>
+
+    <!-- Base de cerveza ámbar con ondas de espuma en la mitad inferior -->
+    <rect x="55" y="142" width="130" height="45" fill="#D97706" />
+    <!-- Onda superior de espuma -->
+    <path d="M 55,138 Q 72,132 88,138 T 120,138 T 152,138 T 185,138 L 185,146 L 55,146 Z" fill="#FAF8F5" />
+    <path d="M 55,138 Q 72,132 88,138 T 120,138 T 152,138 T 185,138" fill="none" stroke="#FAF8F5" stroke-width="2" />
+    <!-- Ondas sutiles dentro del líquido ámbar -->
+    <path d="M 85,156 Q 102,152 120,156 T 155,156" fill="none" stroke="#FAF8F5" stroke-width="1.8" stroke-linecap="round" opacity="0.7" />
+    <path d="M 96,166 Q 108,163 120,166 T 144,166" fill="none" stroke="#FAF8F5" stroke-width="1.8" stroke-linecap="round" opacity="0.5" />
+  </g>
+</svg>

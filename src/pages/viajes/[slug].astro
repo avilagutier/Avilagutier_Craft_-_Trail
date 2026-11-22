@@ -1,0 +1,131 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+import { baseUrl } from '../../utils/url';
+
+export async function getStaticPaths() {
+  const viajes = await getCollection('viajes');
+  return viajes.map((trip) => ({
+    params: { slug: trip.id },
+    props: { trip },
+  }));
+}
+
+const { trip } = Astro.props;
+const { data } = trip;
+const { Content } = await render(trip);
+
+const formattedDate = new Intl.DateTimeFormat('es-ES', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+}).format(data.fecha);
+
+const isWork = data.motivo.toLowerCase() === 'trabajo';
+---
+
+<Layout 
+  title={`${data.titulo} (${data.ciudad}, ${data.pais})`}
+  description={data.resumen}
+  image={baseUrl(data.foto)}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    
+    {/* Navigation Breadcrumb */}
+    <nav class="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-6">
+      <a href={baseUrl('/')} class="hover:text-pizarra">Inicio</a>
+      <span>/</span>
+      <a href={baseUrl('/viajes')} class="hover:text-pizarra">Viajes</a>
+      <span>/</span>
+      <span class="text-pizarra truncate">{data.titulo}</span>
+    </nav>
+
+    {/* Header / Hero Banner */}
+    <article class="bg-white rounded-3xl border border-amber-900/10 shadow-lg overflow-hidden">
+      
+      {/* Photo Frame */}
+      <div class="w-full h-64 sm:h-80 bg-slate-900 relative overflow-hidden">
+        <img
+          src={baseUrl(data.foto)}
+          alt={data.titulo}
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-pizarra via-pizarra/30 to-transparent"></div>
+        
+        <div class="absolute bottom-6 left-6 right-6 text-espuma">
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            <span class={`px-3 py-1 rounded-full text-xs font-bold shadow ${
+              isWork ? 'bg-amber-500 text-pizarra' : 'bg-emerald-600 text-espuma'
+            }`}>
+              {isWork ? '💼 Viaje de Trabajo' : '🏕️ Viaje de Placer'}
+            </span>
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-white/20 backdrop-blur text-espuma">
+              📍 {data.ciudad}, {data.pais}
+            </span>
+          </div>
+          <h1 class="font-display font-black text-2xl sm:text-4xl text-espuma leading-tight">
+            {data.titulo}
+          </h1>
+        </div>
+      </div>
+
+      {/* Travel Specs Bar */}
+      <div class="p-6 sm:p-8 bg-slate-50/70 border-b border-slate-100 grid grid-cols-2 sm:grid-cols-3 gap-4">
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Destino</span>
+          <span class="font-bold text-sm text-pizarra flex items-center gap-1.5">
+            <span>🌍</span> {data.ciudad}, {data.pais}
+          </span>
+        </div>
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Fecha de Visita</span>
+          <span class="font-bold text-sm text-pizarra flex items-center gap-1.5">
+            <span>📅</span> {formattedDate}
+          </span>
+        </div>
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Motivo</span>
+          <span class="font-bold text-sm text-verde-bosque capitalize flex items-center gap-1.5">
+            <span>{isWork ? '💼' : '🏕️'}</span> {data.motivo}
+          </span>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div class="p-6 sm:p-10 space-y-6">
+        <div class="bg-emerald-50 border-l-4 border-verde-bosque p-4 rounded-r-xl text-slate-800 text-sm font-medium leading-relaxed">
+          {data.resumen}
+        </div>
+
+        <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-base space-y-4">
+          <Content />
+        </div>
+
+        {/* Map Location Link */}
+        <div class="mt-8 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="text-xs text-slate-500 font-mono">
+            Coordenadas GPS: {data.latitud.toFixed(4)}, {data.longitud.toFixed(4)}
+          </div>
+          <a
+            href={baseUrl('/mapa')}
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-verde-bosque hover:bg-verde-lupulo text-espuma text-xs font-bold transition-all shadow"
+          >
+            <span>🗺️ Localizar en el Mapa Global</span>
+          </a>
+        </div>
+      </div>
+
+    </article>
+
+    {/* Back link */}
+    <div class="mt-6 text-center">
+      <a
+        href={baseUrl('/viajes')}
+        class="inline-flex items-center gap-2 text-sm font-bold text-verde-bosque hover:text-verde-lupulo transition-colors"
+      >
+        <span>← Volver a todos los viajes</span>
+      </a>
+    </div>
+
+  </div>
+</Layout>

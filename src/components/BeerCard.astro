@@ -1,0 +1,118 @@
+---
+import StarRating from './StarRating.astro';
+import { baseUrl } from '../utils/url';
+
+interface Props {
+  beer: {
+    id: string;
+    data: {
+      nombre: string;
+      cerveceria: string;
+      estilo: string;
+      graduacion: number | string;
+      puntuacion: number;
+      ciudad: string;
+      fecha: Date;
+      foto: string;
+      notas?: string;
+    };
+  };
+}
+
+const { beer } = Astro.props;
+const { data } = beer;
+
+const formattedDate = new Intl.DateTimeFormat('es-ES', {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+}).format(data.fecha);
+
+const abv = typeof data.graduacion === 'number' ? `${data.graduacion}%` : data.graduacion;
+---
+
+<article 
+  class="beer-card bg-white rounded-2xl border border-amber-900/10 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group relative"
+  data-ciudad={data.ciudad.toLowerCase()}
+  data-estilo={data.estilo.toLowerCase()}
+  data-puntuacion={data.puntuacion}
+>
+  {/* Card Header Banner / Style Badge */}
+  <div class="px-5 pt-4 pb-2 flex items-center justify-between border-b border-slate-100 bg-slate-50/70">
+    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-900 border border-amber-200">
+      <span>🍺</span> {data.estilo}
+    </span>
+    <span class="text-xs font-medium text-slate-500 flex items-center gap-1">
+      <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+      {formattedDate}
+    </span>
+  </div>
+
+  <div class="p-5 flex flex-col sm:flex-row gap-4 flex-grow">
+    {/* Beer Photo Thumbnail */}
+    <div class="w-full sm:w-28 h-36 sm:h-28 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0 relative border border-slate-200 group-hover:border-ambar-dorado/50 transition-colors">
+      <img
+        src={baseUrl(data.foto)}
+        alt={`Foto de ${data.nombre}`}
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        loading="lazy"
+      />
+      <div class="absolute bottom-1 right-1 bg-pizarra/90 backdrop-blur text-espuma text-[11px] font-mono font-bold px-1.5 py-0.5 rounded">
+        {abv}
+      </div>
+    </div>
+
+    {/* Beer Info & Untappd Details */}
+    <div class="flex-grow flex flex-col justify-between">
+      <div>
+        <h3 class="font-display font-extrabold text-lg sm:text-xl text-pizarra group-hover:text-verde-bosque transition-colors leading-tight">
+          <a href={baseUrl(`/cervezas/${beer.id}`)} class="focus:outline-none">
+            {data.nombre}
+          </a>
+        </h3>
+
+        {/* Brewery / Pub */}
+        <p class="text-sm font-semibold text-ambar-malta mt-1 flex items-center gap-1.5">
+          <svg class="w-4 h-4 fill-current flex-shrink-0" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2a1 1 0 00-1-1H7a1 1 0 00-1 1v2a1 1 0 01-1 1H3a1 1 0 01-1-1V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd" />
+          </svg>
+          <span>{data.cerveceria}</span>
+        </p>
+
+        {/* Location & City */}
+        <p class="text-xs text-slate-500 mt-1 flex items-center gap-1">
+          <span>📍</span>
+          <span>{data.ciudad}</span>
+        </p>
+      </div>
+
+      {/* Untappd Rating Stars */}
+      <div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between">
+        <div>
+          <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block mb-0.5">
+            Calificación
+          </span>
+          <StarRating rating={data.puntuacion} />
+        </div>
+        <a
+          href={baseUrl(`/cervezas/${beer.id}`)}
+          class="text-xs font-bold text-verde-lupulo hover:text-verde-bosque inline-flex items-center gap-1 group/btn py-1 px-2.5 rounded-lg bg-green-50 hover:bg-green-100 transition-colors"
+        >
+          <span>Ver cata</span>
+          <svg class="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {/* Tasting Notes snippet */}
+  {data.notas && (
+    <div class="px-5 py-3 bg-amber-50/50 border-t border-amber-900/5 text-xs text-slate-600 italic">
+      «{data.notas}»
+    </div>
+  )}
+</article>

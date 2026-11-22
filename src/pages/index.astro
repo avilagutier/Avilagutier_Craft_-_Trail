@@ -1,0 +1,244 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BeerCard from '../components/BeerCard.astro';
+import TravelCard from '../components/TravelCard.astro';
+import TrekCard from '../components/TrekCard.astro';
+import { getCollection } from 'astro:content';
+import { baseUrl } from '../utils/url';
+
+// Fetch all collections
+const cervezas = (await getCollection('cervezas')).sort(
+  (a, b) => b.data.fecha.getTime() - a.data.fecha.getTime()
+);
+const viajes = (await getCollection('viajes')).sort(
+  (a, b) => b.data.fecha.getTime() - a.data.fecha.getTime()
+);
+const trekking = (await getCollection('trekking')).sort(
+  (a, b) => b.data.fecha.getTime() - a.data.fecha.getTime()
+);
+
+const totalKm = trekking.reduce((acc, t) => acc + t.data.distancia_km, 0);
+---
+
+<Layout 
+  title="Inicio · Bitácora de Cumbres y Maltas"
+  description="Avilagutier Craft & Trail: Bitácora de senderismo alpino, viajes nórdicos y catas de cerveza artesana estilo Untappd."
+>
+  {/* Hero Section - Mobile First Optimized */}
+  <section class="relative overflow-hidden bg-gradient-to-b from-amber-100/60 via-espuma to-espuma pt-8 pb-14 sm:py-20 border-b border-amber-900/10">
+    
+    {/* Decorative background ambient glows */}
+    <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-ambar-dorado/10 blur-3xl pointer-events-none"></div>
+    <div class="absolute top-1/2 -right-24 w-96 h-96 rounded-full bg-verde-bosque/10 blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="flex flex-col items-center text-center max-w-3xl mx-auto">
+        
+        {/* Brand Hero Seal / Alpine Pin Logo */}
+        <div class="w-24 h-24 sm:w-32 sm:h-32 mb-6 relative group animate-fade-in">
+          <div class="absolute inset-0 bg-amber-400/20 rounded-full blur-xl group-hover:blur-2xl transition-all"></div>
+          <img
+            src={baseUrl('/images/logos/Avilagutier_logo_A.svg')}
+            alt="Logo Avilagutier El Pin Alpino"
+            class="w-full h-full object-contain filter drop-shadow-md relative z-10 transition-transform duration-300 group-hover:scale-105"
+            width="128"
+            height="128"
+          />
+        </div>
+
+        {/* Category Pill Tag */}
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-amber-200/70 text-amber-900 border border-amber-300/60 mb-4 shadow-sm">
+          <span>🏔️ Senderismo</span>
+          <span>•</span>
+          <span>🍺 Cerveza Artesana</span>
+          <span>•</span>
+          <span>✈️ Bitácora</span>
+        </div>
+
+        {/* Main Title */}
+        <h1 class="font-display font-black text-3xl sm:text-5xl lg:text-6xl text-pizarra tracking-tight leading-[1.15]">
+          Avilagutier <br class="sm:hidden" />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-verde-bosque via-verde-lupulo to-ambar-dorado">
+            Craft &amp; Trail
+          </span>
+        </h1>
+
+        {/* Tagline */}
+        <p class="mt-4 sm:mt-6 text-base sm:text-xl text-slate-700 leading-relaxed max-w-2xl font-normal">
+          Un cuaderno de campo digital para quienes encuentran la felicidad coronando picos alpinos y compartiendo una buena pinta en pubs con historia.
+        </p>
+
+        {/* CTA Buttons - Instagram & Mobile Friendly */}
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
+          <a
+            href={baseUrl('/mapa')}
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-verde-bosque hover:bg-verde-lupulo text-espuma font-bold text-sm sm:text-base shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95"
+          >
+            <span>🗺️ Abrir Mapa Global</span>
+            <span class="bg-white/20 text-espuma px-2 py-0.5 rounded-full text-xs font-mono">GPS</span>
+          </a>
+
+          <a
+            href={baseUrl('/cervezas')}
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-pizarra font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-200 active:scale-95"
+          >
+            <span>🍺 Catas de Cerveza</span>
+          </a>
+
+          <a
+            href={baseUrl('/trekking')}
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-pizarra border border-slate-200 font-bold text-sm sm:text-base shadow-sm transition-all duration-200 active:scale-95"
+          >
+            <span>🥾 Rutas de Montaña</span>
+          </a>
+        </div>
+
+        {/* Quick Stats Grid */}
+        <div class="mt-10 sm:mt-12 grid grid-cols-3 gap-2 sm:gap-4 w-full max-w-xl">
+          <div class="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-2xl border border-amber-900/10 shadow-sm text-center">
+            <span class="text-xl sm:text-2xl font-black text-amber-600 block">{cervezas.length}</span>
+            <span class="text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">Catas Untappd</span>
+          </div>
+
+          <div class="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-2xl border border-amber-900/10 shadow-sm text-center">
+            <span class="text-xl sm:text-2xl font-black text-emerald-700 block">{totalKm.toFixed(0)}+ km</span>
+            <span class="text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">En Senderos</span>
+          </div>
+
+          <div class="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-2xl border border-amber-900/10 shadow-sm text-center">
+            <span class="text-xl sm:text-2xl font-black text-slate-800 block">{viajes.length}</span>
+            <span class="text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">Destinos</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {/* Section: Cervezas & Pubs (Untappd Style) */}
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div class="flex items-end justify-between mb-8 pb-4 border-b border-amber-900/10">
+      <div>
+        <span class="text-xs font-bold text-ambar-malta uppercase tracking-wider block mb-1">
+          Últimas Catas
+        </span>
+        <h2 class="font-display font-black text-2xl sm:text-3xl text-pizarra tracking-tight">
+          Cervezas &amp; Pubs · Estilo Untappd
+        </h2>
+      </div>
+      <a
+        href={baseUrl('/cervezas')}
+        class="text-xs sm:text-sm font-bold text-verde-bosque hover:text-verde-lupulo flex items-center gap-1 group"
+      >
+        <span>Ver todas ({cervezas.length})</span>
+        <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {cervezas.map((beer) => (
+        <BeerCard beer={beer} />
+      ))}
+    </div>
+  </section>
+
+  {/* Section: Trekking & Mountain Routes */}
+  <section class="bg-slate-100/70 border-y border-amber-900/10 py-12 sm:py-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-end justify-between mb-8 pb-4 border-b border-slate-200">
+        <div>
+          <span class="text-xs font-bold text-verde-lupulo uppercase tracking-wider block mb-1">
+            Alta Montaña
+          </span>
+          <h2 class="font-display font-black text-2xl sm:text-3xl text-pizarra tracking-tight">
+            Rutas de Trekking &amp; Cumbres
+          </h2>
+        </div>
+        <a
+          href={baseUrl('/trekking')}
+          class="text-xs sm:text-sm font-bold text-verde-lupulo hover:text-verde-bosque flex items-center gap-1 group"
+        >
+          <span>Ver todas ({trekking.length})</span>
+          <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {trekking.map((trek) => (
+          <TrekCard trek={trek} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* Section: Viajes & Expediciones */}
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div class="flex items-end justify-between mb-8 pb-4 border-b border-amber-900/10">
+      <div>
+        <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider block mb-1">
+          Bitácora Internacional
+        </span>
+        <h2 class="font-display font-black text-2xl sm:text-3xl text-pizarra tracking-tight">
+          Viajes, Ciudades &amp; Placer / Trabajo
+        </h2>
+      </div>
+      <a
+        href={baseUrl('/viajes')}
+        class="text-xs sm:text-sm font-bold text-verde-bosque hover:text-verde-lupulo flex items-center gap-1 group"
+      >
+        <span>Ver todos ({viajes.length})</span>
+        <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {viajes.map((trip) => (
+        <TravelCard trip={trip} />
+      ))}
+    </div>
+  </section>
+
+  {/* Section: Interactive Map Banner Callout */}
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+    <div class="bg-gradient-to-br from-pizarra via-slate-900 to-verde-bosque text-espuma rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-2xl border-2 border-amber-500/20">
+      
+      {/* Background Graphic Accent */}
+      <div class="absolute -right-12 -bottom-12 w-64 h-64 opacity-20 pointer-events-none">
+        <img
+          src={baseUrl('/images/logos/Avilagutier_logo_B.svg')}
+          alt="Watermark"
+          class="w-full h-full object-contain filter invert"
+        />
+      </div>
+
+      <div class="relative z-10 max-w-2xl space-y-4">
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-amber-400 text-pizarra">
+          <span>🗺️ Cartografía OpenStreetMap + Leaflet</span>
+        </span>
+        <h2 class="font-display font-black text-2xl sm:text-4xl text-espuma tracking-tight">
+          Explora todas las coordenadas en el Mapa Global
+        </h2>
+        <p class="text-sm sm:text-base text-espuma/80 leading-relaxed">
+          Cada cata, viaje y sendero tiene su punto exacto georreferenciado. Filtra por categoría y descubre las reseñas tocando los pines interactivos.
+        </p>
+        <div class="pt-4 flex flex-wrap gap-3">
+          <a
+            href={baseUrl('/mapa')}
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-pizarra font-extrabold text-sm shadow-lg transition-all active:scale-95"
+          >
+            <span>Abrir Mapa Completo</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

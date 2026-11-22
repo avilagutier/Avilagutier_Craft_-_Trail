@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="sky-picos" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1B4332" />
+      <stop offset="100%" stop-color="#2D6A4F" />
+    </linearGradient>
+    <linearGradient id="lake" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2D6A4F" />
+      <stop offset="100%" stop-color="#1B4332" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#sky-picos)" />
+
+  <!-- Limestone Crags of Picos de Europa -->
+  <polygon points="40,240 160,70 280,240" fill="#0F172A" opacity="0.8" />
+  <polygon points="160,70 185,110 160,115 150,90" fill="#FAF8F5" opacity="0.9" />
+
+  <polygon points="320,240 440,85 560,240" fill="#0F172A" opacity="0.8" />
+  <polygon points="440,85 465,120 440,125 430,100" fill="#FAF8F5" opacity="0.9" />
+
+  <polygon points="200,240 320,60 440,240" fill="#FAF8F5" opacity="0.25" />
+  <polygon points="200,240 320,60 380,240" fill="#0F172A" />
+  <polygon points="320,60 340,95 320,105 305,85" fill="#FAF8F5" />
+
+  <!-- Enol / Ercina Lake -->
+  <ellipse cx="300" cy="245" rx="230" ry="40" fill="url(#lake)" />
+  <ellipse cx="300" cy="245" rx="220" ry="34" fill="#3B7A57" opacity="0.4" />
+
+  <!-- Green meadows in foreground -->
+  <path d="M 0,265 Q 150,240 300,260 T 600,265 L 600,400 L 0,400 Z" fill="#1B4332" />
+
+  <!-- Wooden Trail Signpost -->
+  <g transform="translate(140, 240)">
+    <rect x="18" y="0" width="8" height="60" fill="#F59E0B" />
+    <polygon points="0,5 50,5 60,15 50,25 0,25" fill="#FAF8F5" stroke="#0F172A" stroke-width="2" />
+    <text x="8" y="19" fill="#0F172A" font-family="'Montserrat', sans-serif" font-weight="700" font-size="9">VEGA DE ARIO</text>
+  </g>
+
+  <text x="300" y="355" text-anchor="middle" fill="#FAF8F5" font-family="'Montserrat', sans-serif" font-weight="800" font-size="20" letter-spacing="3">LAGOS DE COVADONGA A VEGA DE ARIO</text>
+  <text x="300" y="380" text-anchor="middle" fill="#D97796" font-family="sans-serif" font-weight="600" font-size="13" letter-spacing="1.5">15.2 KM · +920 M · PICOS DE EUROPA</text>
+</svg>
