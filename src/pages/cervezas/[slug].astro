@@ -16,7 +16,7 @@ const { beer } = Astro.props;
 const { data } = beer;
 const { Content } = await render(beer);
 
-const formattedDate = new Intl.DateTimeFormat('es-ES', {
+const formattedDate = new Intl.DateTimeFormat('en-US', {
   day: 'numeric',
   month: 'long',
   year: 'numeric',
@@ -26,37 +26,37 @@ const abv = typeof data.graduacion === 'number' ? `${data.graduacion}%` : data.g
 ---
 
 <Layout 
-  title={`${data.nombre} (${data.cerveceria})`}
-  description={data.notas || `Cata de ${data.nombre} en ${data.cerveceria}, ${data.ciudad}.`}
-  image={baseUrl(data.foto)}
+  title={`${data.nombre} · ${data.cerveceria}`}
+  description={`Tasting notes and review for ${data.nombre} (${data.estilo}) from ${data.cerveceria} in ${data.ciudad}.`}
 >
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
     
-    {/* Navigation Breadcrumb */}
+    {/* Breadcrumbs */}
     <nav class="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-6">
-      <a href={baseUrl('/')} class="hover:text-pizarra">Inicio</a>
+      <a href={baseUrl('/')} class="hover:text-amber-600 transition-colors">Home</a>
       <span>/</span>
-      <a href={baseUrl('/cervezas')} class="hover:text-pizarra">Cervezas</a>
+      <a href={baseUrl('/cervezas')} class="hover:text-amber-600 transition-colors">Craft Tasted</a>
       <span>/</span>
-      <span class="text-pizarra truncate">{data.nombre}</span>
+      <span class="text-pizarra truncate max-w-xs">{data.nombre}</span>
     </nav>
 
-    {/* Header / Hero Banner */}
-    <article class="bg-white rounded-3xl border border-amber-900/10 shadow-lg overflow-hidden">
+    {/* Main Article Container */}
+    <article class="bg-white rounded-3xl border border-amber-900/10 shadow-xl overflow-hidden">
       
-      {/* Photo Frame */}
-      <div class="w-full h-64 sm:h-80 bg-slate-900 relative overflow-hidden">
+      {/* Hero Banner with Beer Photo */}
+      <div class="relative h-72 sm:h-96 w-full overflow-hidden bg-slate-900">
         <img
           src={baseUrl(data.foto)}
-          alt={data.nombre}
-          class="w-full h-full object-cover"
+          alt={`Photo of ${data.nombre}`}
+          class="w-full h-full object-cover object-center opacity-85 filter brightness-95"
         />
-        <div class="absolute inset-0 bg-gradient-to-t from-pizarra via-pizarra/30 to-transparent"></div>
-        
+        <div class="absolute inset-0 bg-gradient-to-t from-pizarra via-pizarra/40 to-transparent"></div>
+
+        {/* Title Overlay */}
         <div class="absolute bottom-6 left-6 right-6 text-espuma">
-          <div class="flex flex-wrap items-center gap-2 mb-2">
+          <div class="flex items-center gap-2 mb-2 flex-wrap">
             <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-500 text-pizarra shadow">
-              {data.estilo}
+              🍺 {data.estilo}
             </span>
             <span class="px-3 py-1 rounded-full text-xs font-bold bg-white/20 backdrop-blur text-espuma">
               {abv} ABV
@@ -68,28 +68,28 @@ const abv = typeof data.graduacion === 'number' ? `${data.graduacion}%` : data.g
         </div>
       </div>
 
-      {/* Untappd Quick Specs Bar */}
+      {/* Quick Specs Bar */}
       <div class="p-6 sm:p-8 bg-amber-50/40 border-b border-amber-900/10 grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div>
-          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Cervecería / Pub</span>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Brewery / Venue</span>
           <span class="font-bold text-sm text-pizarra flex items-center gap-1.5">
             <span>🍻</span> {data.cerveceria}
           </span>
         </div>
         <div>
-          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Ciudad</span>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">City</span>
           <span class="font-bold text-sm text-pizarra flex items-center gap-1.5">
             <span>📍</span> {data.ciudad}
           </span>
         </div>
         <div>
-          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Fecha de Cata</span>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Tasting Date</span>
           <span class="font-bold text-sm text-pizarra flex items-center gap-1.5">
             <span>📅</span> {formattedDate}
           </span>
         </div>
         <div>
-          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Puntuación Untappd</span>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Rating</span>
           <StarRating rating={data.puntuacion} />
         </div>
       </div>
@@ -109,13 +109,13 @@ const abv = typeof data.graduacion === 'number' ? `${data.graduacion}%` : data.g
         {/* Map Location Link */}
         <div class="mt-8 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div class="text-xs text-slate-500 font-mono">
-            Coordenadas GPS: {data.latitud.toFixed(4)}, {data.longitud.toFixed(4)}
+            GPS Coordinates: {data.latitud.toFixed(4)}, {data.longitud.toFixed(4)}
           </div>
           <a
             href={baseUrl('/mapa')}
             class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-verde-bosque hover:bg-verde-lupulo text-espuma text-xs font-bold transition-all shadow"
           >
-            <span>🗺️ Localizar en el Mapa Global</span>
+            <span>🗺️ Locate on Global Map</span>
           </a>
         </div>
       </div>
@@ -128,7 +128,7 @@ const abv = typeof data.graduacion === 'number' ? `${data.graduacion}%` : data.g
         href={baseUrl('/cervezas')}
         class="inline-flex items-center gap-2 text-sm font-bold text-verde-lupulo hover:text-verde-bosque transition-colors"
       >
-        <span>← Volver a todas las cervezas</span>
+        <span>← Back to all craft beers</span>
       </a>
     </div>
 

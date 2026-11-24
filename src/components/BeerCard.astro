@@ -22,7 +22,7 @@ interface Props {
 const { beer } = Astro.props;
 const { data } = beer;
 
-const formattedDate = new Intl.DateTimeFormat('es-ES', {
+const formattedDate = new Intl.DateTimeFormat('en-US', {
   day: 'numeric',
   month: 'short',
   year: 'numeric',
@@ -55,7 +55,7 @@ const abv = typeof data.graduacion === 'number' ? `${data.graduacion}%` : data.g
     <div class="w-full sm:w-28 h-36 sm:h-28 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0 relative border border-slate-200 group-hover:border-ambar-dorado/50 transition-colors">
       <img
         src={baseUrl(data.foto)}
-        alt={`Foto de ${data.nombre}`}
+        alt={`Photo of ${data.nombre}`}
         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         loading="lazy"
       />
@@ -64,7 +64,7 @@ const abv = typeof data.graduacion === 'number' ? `${data.graduacion}%` : data.g
       </div>
     </div>
 
-    {/* Beer Info & Untappd Details */}
+    {/* Beer Info & Details */}
     <div class="flex-grow flex flex-col justify-between">
       <div>
         <h3 class="font-display font-extrabold text-lg sm:text-xl text-pizarra group-hover:text-verde-bosque transition-colors leading-tight">
@@ -88,11 +88,11 @@ const abv = typeof data.graduacion === 'number' ? `${data.graduacion}%` : data.g
         </p>
       </div>
 
-      {/* Untappd Rating Stars */}
+      {/* Tasting Rating Stars */}
       <div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between">
         <div>
           <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block mb-0.5">
-            Calificación
+            Rating
           </span>
           <StarRating rating={data.puntuacion} />
         </div>
@@ -100,7 +100,7 @@ const abv = typeof data.graduacion === 'number' ? `${data.graduacion}%` : data.g
           href={baseUrl(`/cervezas/${beer.id}`)}
           class="text-xs font-bold text-verde-lupulo hover:text-verde-bosque inline-flex items-center gap-1 group/btn py-1 px-2.5 rounded-lg bg-green-50 hover:bg-green-100 transition-colors"
         >
-          <span>Ver cata</span>
+          <span>View tasting</span>
           <svg class="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
           </svg>

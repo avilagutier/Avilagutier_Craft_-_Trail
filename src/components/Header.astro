@@ -4,11 +4,11 @@ import { baseUrl } from '../utils/url';
 const pathname = Astro.url.pathname;
 
 const navItems = [
-  { name: 'Inicio', href: baseUrl('/'), icon: '🏔️' },
-  { name: 'Cervezas & Pubs', href: baseUrl('/cervezas'), icon: '🍺' },
-  { name: 'Viajes', href: baseUrl('/viajes'), icon: '✈️' },
+  { name: 'Home', href: baseUrl('/'), icon: '🏔️' },
+  { name: 'Craft Tasted', href: baseUrl('/cervezas'), icon: '🍺' },
+  { name: 'Travels', href: baseUrl('/viajes'), icon: '✈️' },
   { name: 'Trekking', href: baseUrl('/trekking'), icon: '🥾' },
-  { name: 'Mapa Global', href: baseUrl('/mapa'), icon: '🗺️', highlight: true },
+  { name: 'Global Map', href: baseUrl('/mapa'), icon: '🗺️', highlight: true },
 ];
 
 function isActive(itemHref: string) {
@@ -73,7 +73,7 @@ function isActive(itemHref: string) {
         <button
           id="mobile-menu-btn"
           type="button"
-          aria-label="Abrir menú de navegación"
+          aria-label="Open navigation menu"
           aria-expanded="false"
           aria-controls="mobile-menu"
           class="p-2.5 rounded-xl text-pizarra hover:bg-amber-100/60 focus:outline-none focus:ring-2 focus:ring-verde-lupulo transition-colors"
@@ -124,7 +124,7 @@ function isActive(itemHref: string) {
     {/* Quick Mobile Bio / Motto */}
     <div class="mt-4 pt-3 border-t border-amber-900/10 text-center">
       <p class="text-xs text-pizarra/60">
-        Bitácora de cumbres, rutas salvajes y la mejor cerveza artesana.
+        Alpine summits, wild trails, and the finest craft beer explorations.
       </p>
     </div>
   </div>
