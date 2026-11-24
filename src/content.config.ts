@@ -15,6 +15,7 @@ const cervezas = defineCollection({
     longitud: z.number(),
     foto: z.string(),
     notas: z.string().optional(),
+    idioma: z.enum(['es', 'en']).default('es'),
   }),
 });
 
@@ -24,12 +25,13 @@ const viajes = defineCollection({
     titulo: z.string(),
     ciudad: z.string(),
     pais: z.string(),
-    motivo: z.enum(['placer', 'trabajo']).or(z.string()),
+    motivo: z.enum(['placer', 'trabajo', 'leisure', 'work']).or(z.string()),
     fecha: z.coerce.date(),
     latitud: z.number(),
     longitud: z.number(),
     foto: z.string(),
     resumen: z.string(),
+    idioma: z.enum(['es', 'en']).default('es'),
   }),
 });
 
@@ -45,6 +47,7 @@ const trekking = defineCollection({
     longitud: z.number(),
     foto: z.string(),
     notas: z.string().optional(),
+    idioma: z.enum(['es', 'en']).default('es'),
   }),
 });
 
