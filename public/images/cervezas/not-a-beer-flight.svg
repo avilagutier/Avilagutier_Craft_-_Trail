@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1B4332" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+    <linearGradient id="beer" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+    <linearGradient id="foam" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#FAF8F5" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg)" />
+  <!-- Decorative Circles -->
+  <circle cx="300" cy="200" r="140" fill="#2D6A4F" opacity="0.3" />
+  <circle cx="300" cy="200" r="100" fill="#D97796" opacity="0.15" />
+  
+  <!-- Pint Glass -->
+  <g transform="translate(240, 90)">
+    <!-- Glass body -->
+    <path d="M 15,40 L 30,210 Q 32,220 45,220 L 75,220 Q 88,220 90,210 L 105,40 Z" fill="url(#beer)" opacity="0.95" />
+    <!-- Glass Highlights -->
+    <path d="M 22,48 L 34,205" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.4" />
+    <path d="M 98,48 L 86,205" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.3" />
+    <!-- Bubbles -->
+    <circle cx="50" cy="170" r="3" fill="#FFFFFF" opacity="0.6" />
+    <circle cx="70" cy="140" r="4" fill="#FFFFFF" opacity="0.5" />
+    <circle cx="60" cy="100" r="3.5" fill="#FFFFFF" opacity="0.6" />
+    <circle cx="45" cy="80" r="2.5" fill="#FFFFFF" opacity="0.7" />
+    <!-- Creamy Foam Top -->
+    <path d="M 10,40 Q 30,22 60,32 Q 90,22 110,40 Q 115,48 105,52 L 15,52 Q 5,48 10,40 Z" fill="url(#foam)" />
+    <!-- Floating Hop Cone -->
+    <g transform="translate(60, 245) scale(0.9)">
+      <path d="M 0,-15 C 10,-8 10,4 0,15 C -10,4 -10,-8 0,-15 Z" fill="#2D6A4F" />
+      <path d="M -8,-6 C -14,0 -12,8 -3,11" stroke="#FAF8F5" stroke-width="1.5" fill="none" />
+      <path d="M 8,-6 C 14,0 12,8 3,11" stroke="#FAF8F5" stroke-width="1.5" fill="none" />
+    </g>
+  </g>
+  <!-- Text Label -->
+  <text x="300" y="345" text-anchor="middle" fill="#FAF8F5" font-family="'Montserrat', sans-serif" font-weight="800" font-size="20" letter-spacing="3">DOBLE IPA LUPULADA</text>
+  <text x="300" y="370" text-anchor="middle" fill="#F59E0B" font-family="sans-serif" font-weight="600" font-size="13" letter-spacing="1.5">8.2% ABV · PUB EL LÚPULO FEROZ</text>
+</svg>
